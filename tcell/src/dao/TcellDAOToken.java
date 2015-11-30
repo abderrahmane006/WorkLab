@@ -139,6 +139,48 @@ public class TcellDAOToken extends Tools{
 	}
 	
 	/**
+	 * Inserts a Consultation 's description
+	 * 
+	 * @param IdGlobal
+	 *            the global id of the consultation
+	 * @param IdPatient
+	 *           the global id of the Patient
+	 * @param IdMedecin
+	 *            the global id of a Doctor
+	 * @param IMC
+	 *            Sepecifique to Doc
+	 * @param TDT
+	 * 			  Sepecifique to Doc
+	 * @param POID   
+	 * 			  Sepecifique to Doc  
+	 * @param DATEVI   
+	 * 			  the date of consultation	  
+	 * @throws Exception
+	 */
+	public void visite(int GID, int IdPatient, int IdDocteur, String TDT, String IMC, String DateVi) {
+
+		try {
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_insertVisite);
+			//ps.setInt(1, fileIdGlobal++);
+			ps.setInt(1, GID);
+			ps.setInt(2, IdPatient);
+			ps.setInt(3, IdDocteur);
+			ps.setString(4, TDT);
+			ps.setString(3, IMC);
+			ps.setString(4, DateVi);
+			ps.executeUpdate();
+			
+			String query= "INSERT INTO MEDECIN  VALUES ("+ GID+","+nomProf+","+grade+","+service+")";
+			System.out.println("Executing query : " + query);			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Uncomment when the close function will be implemented
+			// attemptToClose(ps);
+		}
+	}
+	/**
 	 * Inserts a doctor's description
 	 * 
 	 * @param GID
@@ -172,7 +214,6 @@ public class TcellDAOToken extends Tools{
 			// attemptToClose(ps);
 		}
 	}
-
 	/**
 	 * SELECT GID, nomProf, Grade, Service FROM MEDECIN;
 	 * 	 * @return FileDesc 
@@ -215,7 +256,7 @@ public class TcellDAOToken extends Tools{
 	public void printAllMedecin() {
 
 		try {
-			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_getPrintAllMed);
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PrintAllMedecin);
 			ResultSet rs = ps.executeQuery();
 			
 			String query = "SELECT GID, nomProf, Grade, Service FROM MEDECIN";
@@ -233,7 +274,26 @@ public class TcellDAOToken extends Tools{
 	public void printAllPatient() {
 
 		try {
-			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_getPrintAllMed);
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PrintAllPatient);
+			ResultSet rs = ps.executeQuery();
+			
+			String query = "SELECT GID, fullname, age, sex, taille FROM PATIENT";
+			System.out.println("Executing query : " + query);			
+
+			Tools.lireResultSet(rs , out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Uncomment when the close function will be implemented
+			// attemptToClose(ps);
+			
+		}
+	}
+	
+	public void printAllVisite() {
+
+		try {
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PrintAllViste);
 			ResultSet rs = ps.executeQuery();
 			
 			String query = "SELECT GID, fullname, age, sex, taille FROM PATIENT";
