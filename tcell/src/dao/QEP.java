@@ -6,7 +6,6 @@ package dao;
  */
 
 public class QEP {
-
 	public static String EP_insertMedecin =
 			"/*EP \u0004 6 1 1 -1 1 ?1 # 5 0 0 1 4 3 1 11 r0 12 ?2 13 ?3 14 ?4 # \u0000*/";
 
@@ -25,4 +24,23 @@ public class QEP {
 		public static String EP_getAllViste =
 			"/*EP \u0000 0 1 1 5 # 1 0 0 1 r0 7 5 1 20 21 22 23 24 25 26 # \u0000 7 1 1 IdGlobal 1 2 IdPatient 1 3 IdMedecin 0 4 IMC 0 5 TDT 0 6 POID 0 7 DateVI # \u0000*/";
 
+		public static String EP_PrintAllPatient =
+			"/*EP \u0000 0 1 1 4 # 1 0 0 1 r0 5 4 1 15 16 17 18 19 # \u0000 5 1 1 IdGlobal 0 2 FULLNAME 1 3 AGE 0 4 SEX 0 5 TAILLE # \u0000*/";
+
+		public static String EP_PrintAllMedecin =
+			"/*EP \u0000 0 1 1 3 # 1 0 0 1 r0 4 3 1 11 12 13 14 # \u0000 4 1 1 IdGlobal 0 2 NomPROF 0 3 GRADE 0 4 SERVICE # \u0000*/";
+
+		public static String EP_PrintAllViste =
+			"/*EP \u0000 0 1 1 5 # 1 0 0 1 r0 7 5 1 20 21 22 23 24 25 26 # \u0000 7 1 1 IdGlobal 1 2 IdPatient 1 3 IdMedecin 0 4 IMC 0 5 TDT 0 6 POID 0 7 DateVI # \u0000*/";
+
+		public static String EP_isMedecinExists =
+			"/*EP \u0001 0 2 2 3 # 1 1 1 2 r0 4 3 1 11 12 13 14 # 4 0 0 1 12 0 ?1 r2 # \u0000 4 1 1 IdGlobal 0 2 NomPROF 0 3 GRADE 0 4 SERVICE # \u0000*/";
+
+		public static String EP_isPatientExists =
+			"/*EP \u0001 0 2 2 4 # 1 1 1 2 r0 5 4 1 15 16 17 18 19 # 4 0 0 1 16 0 ?1 r2 # \u0000 5 1 1 IdGlobal 0 2 FULLNAME 1 3 AGE 0 4 SEX 0 5 TAILLE # \u0000*/";
+
+		public static String EP_findVisitByDate =
+			"/*EP \u0001 0 2 2 5 # 1 1 1 2 r0 7 5 1 20 21 22 23 24 25 26 # 4 0 0 1 26 0 ?1 r7 # \u0000 7 1 1 IdGlobal 1 2 IdPatient 1 3 IdMedecin 0 4 IMC 0 5 TDT 0 6 POID 0 7 DateVI # \u0000*/";
+
+	
 }
