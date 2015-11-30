@@ -21,7 +21,12 @@ public class TCell_QEP_IDs {
 		public static final int EP_getAllMedecin = EP_insertVisite + 1;
 		public static final int EP_getAllPatient = EP_getAllMedecin + 1;
 		public static final int EP_getAllViste = EP_getAllPatient + 1;
-		public static final int EP_getPrintAllMed = EP_getAllViste + 1;
-		
+		public static final int EP_PrintAllPatient = EP_getAllViste + 1;
+		public static final int EP_PrintAllMedecin = EP_PrintAllPatient + 1;
+		public static final int EP_PrintAllViste = EP_PrintAllMedecin + 1;
+		public static final int EP_isMedecinExists  = EP_PrintAllViste + 1;
+		public static final int EP_isPatientExists = EP_isMedecinExists + 1;
+		public static final int EP_findVisitByDate = EP_isPatientExists + 1;
+
 	}
 }
