@@ -41,8 +41,10 @@ public class DatabaseMain {
 		
 			TcellDAOToken.getInstance(false).insertPatient(1, "TORKHANI RAMI", 23,"M", "1.85");
 			TcellDAOToken.getInstance(false).insertMedecin(1, "Willam", "chef service", "diab");
-			TcellDAOToken.getInstance(false).getAllMedecin();
-		
+			TcellDAOToken.getInstance(false).printAllMedecin();
+			TcellDAOToken.getInstance(false).printAllPatient();
+
+			
 			
 			
 
