@@ -1,0 +1,12 @@
+!SESSION 2015-11-29 13:46:17.271 -----------------------------------------------
+eclipse.buildId=4.4.2.M20150204-1700
+java.version=1.8.0_51
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -data /home/rami/Desktop/OfficialWorkSpace -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 2 2 2015-11-30 12:05:15.966
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2015-11-30 12:05:15.966
+!MESSAGE The project description file (.project) for 'client' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.

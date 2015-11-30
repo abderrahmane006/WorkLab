@@ -1,0 +1,70 @@
+package apps;
+
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.ArrayList;
+
+import tools.Constants;
+import api.ClientAPI;
+//import beans.User;
+import configuration.Configuration;
+import cryptoTools.KeyManager;
+
+
+public class AppMain 
+{
+	/**
+	 * APP Main
+	 * 
+	 * @author Majdi Ben Fredj
+	 * 
+	 * @param args
+	 * @throws IOException 
+	 */
+	public static void main(String[] args) throws IOException {
+		String fileToSendPath = Configuration.getConfiguration().getProperty("fileToSendPath");
+		int userGID = Integer.parseInt(Configuration.getConfiguration().getProperty("myGID"));
+		String tCellIP = Configuration.getConfiguration().getProperty("myIP");
+		int port = Integer.parseInt(Configuration.getConfiguration().getProperty("myPort"));
+
+		User user= null;
+
+		// load user PubKey
+		try {
+			String KeyPath = Configuration.getConfiguration().getProperty("keyPath");
+			KeyManager keygen = new KeyManager();
+			String publicKeyPath = KeyPath + Constants.PUB_KEY_PREFIX + userGID + Constants.KEY_EXT;
+			PublicKey pubKey = keygen.LoadPublicKey(publicKeyPath, Constants.RSA_ALG);
+			String pubkey = keygen.PublicKeyToString(pubKey);
+
+			user = new User(userGID, tCellIP, port, pubkey);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		// TEST STOREFILE
+		ClientAPI.storeFile(fileToSendPath,user);
+
+		// TEST GETFILEDESC
+		ArrayList<String> file_list = ClientAPI.getFileDesc(user);
+		if(file_list != null) {
+			System.out.println("file list : ");
+			for(String data :file_list) {
+				System.out.println(data);
+			}
+		}
+		
+		// TEST READFILE
+		String fileToReadGid= file_list.get(0);
+		ClientAPI.readFile(fileToReadGid, user);
+		
+		//TEST SHAREFILE
+		String fileToShareGid= file_list.get(0);
+		ClientAPI.shareFile(fileToShareGid, 11, user);
+		
+		
+		System.out.println("Dooooone");
+	}
+}
