@@ -170,7 +170,7 @@ public class TcellDAOToken extends Tools{
 			ps.setString(4, DateVi);
 			ps.executeUpdate();
 			
-			String query= "INSERT INTO MEDECIN  VALUES ("+ GID+","+nomProf+","+grade+","+service+")";
+			String query= "INSERT INTO VISITE  VALUES ("+ GID+","+IdPatient+","+IdDocteur+","+TDT+","+IMC+",,"+DateVi+")";
 			System.out.println("Executing query : " + query);			
 
 		} catch (Exception e) {
