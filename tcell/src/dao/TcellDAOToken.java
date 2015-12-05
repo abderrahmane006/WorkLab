@@ -265,11 +265,7 @@ public class TcellDAOToken extends Tools{
 			Tools.lireResultSet(rs , out);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			// Uncomment when the close function will be implemented
-			// attemptToClose(ps);
-			
-		}
+		} 
 	}
 	public void printAllPatient() {
 
@@ -282,12 +278,8 @@ public class TcellDAOToken extends Tools{
 
 			Tools.lireResultSet(rs , out);
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// Uncomment when the close function will be implemented
-			// attemptToClose(ps);
-			
-		}
+			e.printStackTrace();}
+		
 	}
 	
 	public void printAllVisite() {

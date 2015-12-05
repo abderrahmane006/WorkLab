@@ -1,0 +1,6 @@
+1:Smit Florent:Chef Service:Gastronomie
+2:Faye Luc:Medecin:Interne
+3:FAIN Oliver:Chef Service:Interne
+4:Boussen Isaam:Medecin:Generaliste
+5:Marie Cristine Boulanger:Chef Service:Gynécologue
+6:Emanuel Van Glabeke:Chef Service:Churlegion
