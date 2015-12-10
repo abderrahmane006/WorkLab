@@ -1,0 +1,9 @@
+myGID=11
+myIP=127.0.0.1
+myPort=8811
+
+destUserGID=10
+
+fileToSendPath=apps/APP11/readMe.txt
+appHomePath=apps/APP11/
+keyPath=conf/keys/

@@ -15,31 +15,32 @@ public class GetMyParameter {
 	 */
 	
 	public static MyParameter getUser(int userGID, MyParameter myInfo) {
-		/**
-		 * getUser
-		 * @param userGID
-		 * @param myInfo
-		 */
 
-		MyParameter param = null;
-		try {
-			/* socket connection to my TCELL */
-			Socket socket = new Socket(myInfo.getMyTcellIp(), myInfo.getMyTcellPort());
-			IOStreams stream = new IOStreams(socket);
+				/**
+				 * getUser
+				 * @param userGID
+				 * @param myInfo
+				 */
 
-			/* get the user from the TCELL */
-			Order getParameterCommand = new GetMyParameterOrder(Constants.CMD_STORE_TABLE1,
-					userGID);
-			stream.getOutputStream().writeObject(getParameterCommand);
-			param = (MyParameter) stream.getInputStream().readObject();
+				MyParameter param = null;
+				try {
+					/* socket connection to my TCELL */
+					Socket socket = new Socket(myInfo.getMyTcellIp(), myInfo.getMyTcellPort());
+					IOStreams stream = new IOStreams(socket);
 
-			stream.close();
-			socket.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+					/* get the user from the TCELL */
+					Order getParameterCommand = new GetMyParameterOrder(Constants.CMD_STORE_TABLE1,
+							userGID);
+					stream.getOutputStream().writeObject(getParameterCommand);
+					param = (MyParameter) stream.getInputStream().readObject();
 
-		return param;
-	}
+					stream.close();
+					socket.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				return param;
+			}
 	
 }
