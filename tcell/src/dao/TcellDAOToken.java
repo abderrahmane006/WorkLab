@@ -12,6 +12,7 @@ import org.inria.database.QEPng;
 
 import test.jdbc.Tools;
 import beansAfrica.MedeDesc;
+import beansAfrica.MyParameter;
 import configuration.Configuration;
 import dao.QEP;
 import dao.Schema;
@@ -114,19 +115,22 @@ public class TcellDAOToken extends Tools{
 	 *            the size of patient
 	 * @throws Exception
 	 */
-	public void insertPatient(int GID, String fullname, int age, String sex, String taille) {
+	public void insertPatient(int GID,String Nom,String Prenom,int Age,String Sexe,String NiveauIntel,String Profession,int STORED) {
 
 		try {
 			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_insertPatient);
 			//ps.setInt(1, fileIdGlobal++);
 			ps.setInt(1, GID);
-			ps.setString(2, fullname);
-			ps.setInt(3, age);
-			ps.setString(4, sex);
-			ps.setString(5, taille);
+			ps.setString(2, Nom);
+			ps.setString(3, Prenom);
+			ps.setInt(4, Age);
+			ps.setString(5, Sexe);
+			ps.setString(6, NiveauIntel);
+			ps.setString(7, Profession);
+			ps.setInt(8, STORED);
 			ps.executeUpdate();
 			
-			String query= "INSERT INTO PATIENT  VALUES ("+ GID+","+fullname+","+age+","+sex+","+taille+")";
+			String query= "INSERT INTO PATIENT  VALUES ("+ GID+","+Nom+","+Prenom+","+Age+","+Sexe+","+NiveauIntel+","+Profession+")";
 			System.out.println("Executing query : " + query);			
 
 		} catch (Exception e) {
@@ -157,20 +161,24 @@ public class TcellDAOToken extends Tools{
 	 * 			  the date of consultation	  
 	 * @throws Exception
 	 */
-	public void visite(int GID, int IdPatient, int IdDocteur, String TDT, String IMC, String DateVi) {
+	public void InsertVisite(int GID,int IdPatient,int IdPRATICIEN,String DateVI,String Poid ,String Taille,String IMC,String TDT,String TG,String Insuline) {
 
 		try {
 			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_insertVisite);
 			//ps.setInt(1, fileIdGlobal++);
 			ps.setInt(1, GID);
 			ps.setInt(2, IdPatient);
-			ps.setInt(3, IdDocteur);
-			ps.setString(4, TDT);
-			ps.setString(3, IMC);
-			ps.setString(4, DateVi);
+			ps.setInt(3, IdPRATICIEN);
+			ps.setString(4, DateVI);
+			ps.setString(3, Poid);
+			ps.setString(4, Taille);
+			ps.setString(5, IMC);
+			ps.setString(6, TDT);
+			ps.setString(7, TG);
+			ps.setString(8, Insuline);
 			ps.executeUpdate();
 			
-			String query= "INSERT INTO VISITE  VALUES ("+ GID+","+IdPatient+","+IdDocteur+","+TDT+","+IMC+",,"+DateVi+")";
+			String query= "INSERT INTO VISITE  VALUES ("+ GID+","+IdPatient+","+IdPRATICIEN+","+DateVI+","+Poid+",,"+Taille+","+IMC+","+TDT+","+TG+",,"+Insuline+")";
 			System.out.println("Executing query : " + query);			
 
 		} catch (Exception e) {
@@ -193,18 +201,20 @@ public class TcellDAOToken extends Tools{
 	 *            the service of the doctor 
 	 * @throws Exception
 	 */
-	public void insertMedecin(int GID, String nomProf, String grade, String service) {
+	public void insertPracticien(int GID,String Nom,String Prenom,String Grade,String Poste,int STORED) {
 
 		try {
-			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_insertMedecin);
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_insertPRATICIEN);
 			//ps.setInt(1, fileIdGlobal++);
 			ps.setInt(1, GID);
-			ps.setString(2, nomProf);
-			ps.setString(3, grade);
-			ps.setString(4, service);
+			ps.setString(2, Nom);
+			ps.setString(3, Prenom);
+			ps.setString(4, Grade);
+			ps.setString(5, Poste);
+			ps.setInt(6, STORED);
 			ps.executeUpdate();
 			
-			String query= "INSERT INTO MEDECIN  VALUES ("+ GID+","+nomProf+","+grade+","+service+")";
+			String query= "INSERT INTO MEDECIN  VALUES ("+ GID+","+Nom+","+Prenom+","+Grade+","+Poste+")";
 			System.out.println("Executing query : " + query);			
 
 		} catch (Exception e) {
@@ -215,16 +225,59 @@ public class TcellDAOToken extends Tools{
 		}
 	}
 	/**
-	 * SELECT GID, nomProf, Grade, Service FROM MEDECIN;
-	 * 	 * @return FileDesc 
-	 *    The Doctor's description <GID, nomProf, Grade, Service>
+	 * Inserts parmameter of token
+	 * 
+	 * @param GID
+	 *            the global id of the token
+	 * @param MytCellIp
+	 *            the Ip of the cell
+	 * @param MytCellPort
+	 *            the listing port of cell
+	 * @param MyPublicKey
+	 *            the public key used to encrypt information
+	 * @param MyPrivateKey
+	 * 			  the private key used to encrypt information	 
+	 * @throws Exception
 	 */
-	public ArrayList<MedeDesc> getAllMedecin() {
+	public void insertMyTOKENParameter(int IdGlobal,String MytCellIp,int MytCellPort,String MyPublicKey,String MyPrivateKey,int STORED) {
+
+		try {
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_insertMyParameter);
+			ps.setInt(1, IdGlobal);
+			ps.setString(2, MytCellIp);
+			ps.setInt(3, MytCellPort);
+			//convert String to blob
+			Blob pubKeyBlob = db.createBlob();
+			pubKeyBlob.setBytes(1, MyPublicKey.getBytes());
+			ps.setBlob(4, pubKeyBlob);
+			//convert String to blob
+			Blob privKeyBlob = db.createBlob();
+			privKeyBlob.setBytes(1, MyPrivateKey.getBytes());
+			ps.setBlob(5, privKeyBlob);
+			ps.setInt(6, STORED);
+			ps.executeUpdate();
+			
+			String query= "INSERT INTO MyInfo  VALUES ("+ IdGlobal+","+MytCellIp+","+MytCellPort+","+MyPublicKey+","+MyPrivateKey+","+STORED+")";
+			System.out.println("Executing query : " + query);			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Uncomment when the close function will be implemented
+			// attemptToClose(ps);
+		}
+	}
+	/**
+	 * SELECT GID, nom,prenom,grade,poste FROM MEDECIN;
+	 * 	  @return FileDesc 
+	 *    The Doctor's description <GID, nom, prenom, grade, poste>
+	 */
+	public ArrayList<MedeDesc> getAllPraticien() {
 
 		ArrayList<MedeDesc> result = new ArrayList<MedeDesc>();
 
 		try {
-			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_getAllMedecin);
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_getAllPRATICIEN);
 			ResultSet rs = ps.executeQuery();
 			
 			String query = "SELECT GID, nomProf, Grade, Service FROM MEDECIN";
@@ -233,10 +286,11 @@ public class TcellDAOToken extends Tools{
 			
 			while (rs.next() == true) {
 				String GID = rs.getString(1);
-				String nomProf = rs.getString(2);
-				String Grade = rs.getString(3);
-				String Service = rs.getString(4);
-				result.add(new MedeDesc(GID,nomProf, Grade, Service));
+				String nom = rs.getString(2);
+				String prenom = rs.getString(3);
+				String grade = rs.getString(4);
+				String poste = rs.getString(4);
+				result.add(new MedeDesc(GID,nom, prenom,grade,poste));
 				
 			}
 			Tools.lireResultSet(rs , out);
@@ -251,15 +305,58 @@ public class TcellDAOToken extends Tools{
 		return result;
 	}
 	
+	/**
+	 * SELECT IdGlobal, MytCellIp, MytCellPort, MyPublicKey, MyPrivateKey FROM MyParameter;
+	 * 	  @return FileDesc 
+	 *    The Token parameter's description <IdGlobal, MytCellIp, MytCellPort, MyPublicKey, MyPrivateKey>
+	 */
+public MyParameter getMyParameter() {
+		
+		MyParameter myInfo = null;
+		try {
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_getMyParameter);
+			ResultSet rs = ps.executeQuery();
+
+			String query = "SELECT IdGlobal, MYTCELLIP, MYTCELLPORT, MYPUBLICKEY, MYPRIVATEKEY FROM MyParameter";
+			System.out.println("Executing query : " + query);
+
+			while (rs.next()) {
+
+				int myGid = rs.getInt(1);
+				String myTcellIp = rs.getString(2);
+				int myTcellPort = rs.getInt(3);
+				
+				//convert Blob to String
+				Blob myPubKeyBlob = rs.getBlob(4);
+				byte[] bPubKey = myPubKeyBlob.getBytes(1, (int) myPubKeyBlob.length());
+				String myPubKey = new String(bPubKey);
+				
+				//convert Blob to String
+				Blob myPrivKeyBlob = rs.getBlob(5);
+				byte[] bPrivKey = myPrivKeyBlob.getBytes(1, (int) myPrivKeyBlob.length());
+				String myPrivKey = new String(bPrivKey);
+				
+				myInfo = new MyParameter(myGid, myTcellIp, myTcellPort, myPubKey, myPrivKey);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Uncomment when the close function will be implemented
+			// attemptToClose(ps);
+		}
+
+		return myInfo;
+	}
 	
 			/************LOG INFO***************/
 	public void printAllMedecin() {
 
 		try {
-			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PrintAllMedecin);
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PRINTAllPRATICIEN);
 			ResultSet rs = ps.executeQuery();
 			
-			String query = "SELECT GID, nomProf, Grade, Service FROM MEDECIN";
+			String query = "SELECT IdGlobal, Nom, Prenom, Grade, Poste FROM MEDECIN";
 			System.out.println("Executing query : " + query);			
 
 			Tools.lireResultSet(rs , out);
@@ -270,10 +367,10 @@ public class TcellDAOToken extends Tools{
 	public void printAllPatient() {
 
 		try {
-			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PrintAllPatient);
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PRINTInfoPatient);
 			ResultSet rs = ps.executeQuery();
 			
-			String query = "SELECT GID, fullname, age, sex, taille FROM PATIENT";
+			String query = "SELECT IdGlobal, Nom, Prenom, Age, Sexe, NiveauIntel, Profession FROM PATIENT";
 			System.out.println("Executing query : " + query);			
 
 			Tools.lireResultSet(rs , out);
@@ -285,10 +382,28 @@ public class TcellDAOToken extends Tools{
 	public void printAllVisite() {
 
 		try {
-			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PrintAllViste);
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PRINTAllViste);
 			ResultSet rs = ps.executeQuery();
 			
-			String query = "SELECT GID, fullname, age, sex, taille FROM PATIENT";
+			String query = "SELECT IdGlobal, IdPatient, IdPRATICIEN, DateVI, Poid ,Taille, IMC, TDT, TG, Insuline FROM VISITE";
+			System.out.println("Executing query : " + query);			
+
+			Tools.lireResultSet(rs , out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Uncomment when the close function will be implemented
+			// attemptToClose(ps);
+			
+		}
+	}
+	public void printMyTokenParameter() {
+
+		try {
+			java.sql.PreparedStatement ps = ((org.inria.jdbc.Connection) db).prepareStatement(TCell_QEP_IDs.QEP.EP_PRINTMyParameter);
+			ResultSet rs = ps.executeQuery();
+			
+			String query = "SELECT IdGlobal, MytCellIp, MytCellPort, MyPublicKey, MyPrivateKey FROM MyParameter";
 			System.out.println("Executing query : " + query);			
 
 			Tools.lireResultSet(rs , out);

@@ -1,0 +1,36 @@
+package tcell.Server;
+
+import java.net.Socket;
+
+import order.Order;
+import tools.IOStreams;
+
+public class ConnectionManager extends Thread {
+	Socket socket;
+	int userGID;
+
+	public ConnectionManager(Socket s, int userGID) {
+		/**
+		 * Creates a ThreadServer instance
+		 * @param socket the client socket
+		 * @param userGID the userGID of the TC
+		 */
+		this.socket = s;
+		this.userGID = userGID;
+	}
+	public Order readOrder(IOStreams stream) {
+		 /**
+		   * readOrder Received Order.
+		   * @param ioStreams
+		   * 				 an IOStreams object
+		   */
+		Order cmd = null;
+		try {
+			cmd = (Order) stream.getInputStream().readObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cmd;
+	}
+	
+}

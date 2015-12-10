@@ -1,0 +1,23 @@
+package tcell.Server;
+
+import java.net.Socket;
+
+public class ConnectionManager extends Thread {
+	Socket socket;
+	int userGID;
+
+	public ConnectionManager(Socket s, int userGID) {
+		/**
+		 * Creates a ThreadServer instance
+		 * @param socket the client socket
+		 * @param userGID the userGID of the TC
+		 */
+		this.socket = s;
+		this.userGID = userGID;
+	}
+	@Override
+	public void run() {
+		
+		
+	}
+}

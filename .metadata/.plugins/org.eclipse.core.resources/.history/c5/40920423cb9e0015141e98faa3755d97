@@ -1,0 +1,101 @@
+package tcell.Server;
+
+import java.net.Socket;
+
+import tools.IOStreams;
+
+public class ConnectionManager extends Thread {
+	Socket socket;
+	int userGID;
+
+	public ConnectionManager(Socket s, int userGID) {
+		/**
+		 * Creates a ThreadServer instance
+		 * @param socket the client socket
+		 * @param userGID the userGID of the TC
+		 */
+		this.socket = s;
+		this.userGID = userGID;
+	}
+	public Order readOrder(IOStreams stream) {
+		 /**
+		   * readCommand Receives Command.
+		   * @param ioStreams
+		   * 				 an IOStreams object
+		   */
+		Command cmd = null;
+		try {
+			cmd = (Command) stream.getInputStream().readObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cmd;
+	}
+	@Override
+	public void run() {
+		
+		try {
+			IOStreams ioStreams = new IOStreams(socket);
+			Order cmd = readCommand(ioStreams);
+			
+			switch (cmd.getNum()) {
+			case Constants.CMD_STORE_FILE:
+				try {
+					// Write received file
+					writeReceivedFile(((StoreFileCommand) cmd).getFilePath(),Base64.decode(((StoreFileCommand) cmd).getFile()));
+					// Insert received metaData
+					insertReceivedMetaData(cmd);
+
+					//Send status
+					ioStreams.getOutputStream().writeInt(Constants.OK);
+					TcellDAOToken.getInstance(false).printAllFiles();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+
+			case Constants.CMD_GET_FILES_DESC:
+				sendFilesDesc(ioStreams);
+				break;
+
+			case Constants.CMD_READ_FILE:
+				readAndSendFile(((ReadFileCommand) cmd).getFileGID(),ioStreams);
+				break;
+				
+				
+			 case Constants.CMD_GET_USER:
+				 sendUser(((GetUserCommand) cmd).getUserGID(),ioStreams);
+				 
+			 break;
+			
+			 case Constants.CMD_GET_FILE_TO_SHARE:
+				 sendFileToShare(((GetFileToShareCommand) cmd).getFileGID(),ioStreams);
+				 
+			 break;
+			
+			 case Constants.CMD_SHARE_FILE:
+				// Write received file
+				byte[] receivedFile = Base64.decode(((ShareFileCommand) cmd).getFileToShare().getFile());
+				writeReceivedFile(((ShareFileCommand) cmd).getFileToShare().getFileDesc().fileID, receivedFile);
+				// Insert received metaData
+				insertReceivedMetaData((((ShareFileCommand) cmd)).getFileToShare().getFileDesc());
+ 
+				//Send status
+				ioStreams.getOutputStream().writeInt(Constants.OK);
+				TcellDAOToken.getInstance(false).printAllFiles();
+			 break;
+				
+			default:
+				System.out.println("unknown command");
+				break;
+			}
+			
+			ioStreams.close();
+			socket.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	}
+}

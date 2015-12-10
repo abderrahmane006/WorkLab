@@ -1,0 +1,84 @@
+package tcell.Server;
+
+import java.net.Socket;
+
+import order.Order;
+import tools.Constants;
+import tools.IOStreams;
+
+public class ConnectionManager extends Thread {
+	Socket socket;
+	int userGID;
+
+	public ConnectionManager(Socket s, int userGID) {
+		/**
+		 * Creates a ThreadServer instance
+		 * @param socket the client socket
+		 * @param userGID the userGID of the TC
+		 */
+		this.socket = s;
+		this.userGID = userGID;
+	}
+	public Order readOrder(IOStreams stream) {
+		 /**
+		   * readOrder Received Order.
+		   * @param ioStreams
+		   * 				 an IOStreams object
+		   */
+		Order cmd = null;
+		try {
+			cmd = (Order) stream.getInputStream().readObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cmd;
+	}
+	@Override
+	public void run() {
+		try {
+			IOStreams ioStreams = new IOStreams(socket);
+			Order cmd = readOrder(ioStreams);
+			
+			switch (cmd.getNumOrder()) {
+			
+
+			case Constants.CMD_STORE_TABLE1:
+				sendMyInfo(ioStreams);
+				break;
+
+			default:
+				System.out.println("unknown command");
+				break;
+			}
+			
+			ioStreams.close();
+			socket.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	private void sendMyInfo(IOStreams ioStreams) {
+		/**
+	     * Sends MyInfo Table to the server through a stream.
+	     * @param stream an IOStreams object
+	     */
+
+		try {
+			MyParameter myParam = TcellDAOToken.getInstance(false).getMyParameter();
+
+			if (listDesc == null) {
+				System.err.println("None file description in the database");
+				ioStreams.getOutputStream().writeInt(Constants.KO);
+			} else {
+				ioStreams.getOutputStream().writeInt(Constants.OK);
+				/* Send the list */
+				ioStreams.getOutputStream().writeObject(listDesc);
+				System.out.println("Files descriptions sent");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+}

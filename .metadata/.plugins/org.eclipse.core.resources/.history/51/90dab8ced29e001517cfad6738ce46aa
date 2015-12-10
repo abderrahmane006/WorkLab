@@ -1,0 +1,55 @@
+package message;
+
+import java.net.Socket;
+import java.util.ArrayList;
+
+import order.GetMyParameterOrder;
+import tools.Constants;
+import tools.IOStreams;
+import beansAfrica.MyParameter;
+
+public class GetMyParameter {
+
+	/**
+	 * Get the files' descriptions
+	 * @return the list of the files' description, as a String
+	 */
+	
+	public static ArrayList<String> getFileDesc(MyParameter user) {
+		ArrayList<String> filesList = new ArrayList<String>();
+
+		String TCellIP = user.getMyTcellIp();
+		int TcellPort = user.getMyTcellPort();
+
+		try {
+			Socket socket = new Socket(TCellIP, TcellPort);
+			/* Creation of the stream */
+			IOStreams stream = new IOStreams(socket);
+
+			/* Send the command */
+
+			GetMyParameterOrder getMyParamCmd = new GetMyParameterOrder(Constants.CMD_STORE_TABLE1);
+			stream.getOutputStream().writeObject(getMyParamCmd);
+
+			int status = stream.getInputStream().readInt();
+
+			if (status == Constants.OK) {
+				MyParameter thecurrentparam = (MyParameter) stream.getInputStream().readObject();
+				System.out.println("Here is the description of the "+ listFilesDesc.size() + " files stored in TCell : ");
+				for (FileDesc fileDesc : listFilesDesc) {
+					System.out.println("FileGID : " + fileDesc.fileGID + " Type : " + fileDesc.type + " Description : " + fileDesc.descr);
+					filesList.add(fileDesc.fileGID);
+				}
+
+			} else {
+				System.err.println("No file found");
+			}
+
+		} catch (Exception ex) {
+			System.err.println("An error occured");
+		}
+
+		return filesList;
+	}	
+	
+}

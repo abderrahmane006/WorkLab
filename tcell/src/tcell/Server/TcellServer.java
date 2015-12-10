@@ -4,21 +4,19 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import beansAfrica.MyParameter;
 import configuration.Configuration;
+import dao.TcellDAOToken;
 
 public class TcellServer {
 
 public static void main(String[] args) throws IOException {
 		
-		//Function to verifiy if the configuration file exist 
-		if (System.getProperty("configurationFilePath") == null) {
-			System.out.println("'configurationFilePath' system property is not defined");
-			return;
-		}
+	
+		MyParameter myInfo  = TcellDAOToken.getInstance(false).getMyParameter();
 		
-		System.getProperties().setProperty("jdbc.port", Configuration.getConfiguration().getProperty("dbPort"));
-		//Later it will be changed : Ask token for port and FoldNum
-		int listenPort = 33010;
+		int userGID = myInfo.getMyGid();
+		int listenPort = myInfo.getMyTcellPort();
 		ServerSocket server = null;
 		try {
 
@@ -26,12 +24,16 @@ public static void main(String[] args) throws IOException {
 			server = new ServerSocket(listenPort);
 
 			/* The server listens for new connections and accepts it */
-			System.out.println("TCell Daemon started...");
+			System.out.println("The PSMF is started...");
 
 			while (true) {
-				System.out.println("\nWaiting for a connection from the MED APP");
+				System.out.println("\nWaiting for a connection from the Doctor APP or from other feature");
 				Socket clientSocket = server.accept();
 				System.out.println("Accepted connection : " + clientSocket);
+
+				/* For each socket, a new thread is created */
+				ConnectionManager ccm = new ConnectionManager(clientSocket, userGID);
+				ccm.start();
 			}
 
 		} catch (Exception ex) {

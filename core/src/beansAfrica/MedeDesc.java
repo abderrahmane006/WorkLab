@@ -6,17 +6,18 @@ import java.io.Serializable;
 
 public class MedeDesc implements Serializable {
 	public String GID;
-	public String nomProf;
-	public String Grade;
-	public String Service;
+	public String nom;
+	public String prenom;
+	public String grade;
+	public String poste;
 
-	public MedeDesc(String GID, String nomProf, String Grade, String Service)
+	public MedeDesc(String GID, String nom,String prenom, String grade, String poste)
 	{
 		this.GID=GID;
-		this.nomProf=nomProf;
-		this.Grade=Grade;
-		this.Service = Service;
-		          
+		this.nom=nom;
+		this.prenom=prenom;
+		this.grade = grade;
+		this.poste = poste;          
 	}
 
 

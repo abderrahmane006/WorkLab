@@ -1,0 +1,29 @@
+package order;
+import java.io.Serializable;
+public class Order {
+	/**
+	 * Class Order 's used to instantiate an order 
+	 *  @Example :
+	 * 			  0:STORE_MyInfoInServer
+	 */
+}
+
+
+
+
+public class Command implements Serializable {
+	protected int numCommand;
+
+	public Command(int numCommand) {
+		this.numCommand = numCommand;
+	}
+
+	public int getNumCommand() {
+		return numCommand;
+	}
+
+	public void setNumCommand(int numCommand) {
+		this.numCommand = numCommand;
+	}
+
+}

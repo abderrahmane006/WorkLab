@@ -1,0 +1,61 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package database;
+
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.security.NoSuchAlgorithmException;
+
+import configuration.Configuration;
+import dao.TcellDAOToken;
+
+/**
+ * author TORKHANI Rami 
+ * Initialization of the DataBase.
+ */
+public class DatabaseMain {
+	/**
+	 * Initialization of db.
+	 * 
+	 * @param args
+	 * @throws NoSuchAlgorithmException
+	 * @throws FileNotFoundException
+	 */
+
+
+	public static void main(String[] args) throws NoSuchAlgorithmException,
+			FileNotFoundException {
+
+		if (System.getProperty("configurationFilePath") == null) {
+			System.out.println("'configurationFilePath' system property is not defined");
+			return;
+		}
+
+		try { 
+			/*STOP HERE*/
+			TcellDAOToken.getInstance(true);
+			TcellDAOToken.getInstance(false).DropTables();
+			TcellDAOToken.getInstance(false).CreateTables();
+
+		
+			TcellDAOToken.getInstance(false).insertPatient(1,"Rami","TORKHANI",15,"H","Bac+5","Ingénieur",0);
+		
+			//Print LOGs
+			TcellDAOToken.getInstance(false).printAllPatient();;
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+	
+			
+	}
+
+}
+
